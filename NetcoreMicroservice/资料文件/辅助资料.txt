@@ -1,0 +1,12 @@
+﻿/* https://www.cnblogs.com/wyt007/p/9150116.html --.NET Core微服务实施之Consul服务发现与治理
+
+
+
+环境部署步骤：
+
+启动2个服务实例>
+dotnet  NetcoreMicroservice.dll --ip 127.0.0.1 --port 6001 
+dotnet  NetcoreMicroservice.dll --ip 127.0.0.1 --port 6002
+
+
+*/

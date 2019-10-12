@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NetcoreMicroservice.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -14,6 +15,7 @@ namespace NetcoreMicroservice.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            Console.WriteLine("健康检查" + DateTime.Now);
             return new string[] { "value1", "value2" };
         }
 
