@@ -32,8 +32,8 @@ namespace NetcoreMicroservice
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifeTime)
         {
-            string ip = Configuration["ip"];
-            string port = Configuration["port"];
+            string ip = Configuration["ip"] ?? "127.0.0.1";
+            string port = Configuration["port"] ?? "5000";
             string serviceName = "ProductService";
             string serviceId = serviceName + Guid.NewGuid();
             using (var consulClient = new ConsulClient(ConsulConfig))
@@ -43,12 +43,12 @@ namespace NetcoreMicroservice
                     Address = ip,
                     Port = Convert.ToInt32(port),
                     ID = serviceId,
-                    Name = serviceName,
+                    Name = serviceName,                    
                     Tags = new string[] {},//可以设置权重
                     Check = new AgentServiceCheck
                     {
                         DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),//服务停止多久后反注册
-                        HTTP = $"http://{ip}:{port}/api/Health",//健康检查地址
+                        HTTP = $"http://{ip}:{port}/api/health",//健康检查地址
                         Interval = TimeSpan.FromSeconds(10),//健康检查时间间隔，或者称为心跳间隔
                         Timeout = TimeSpan.FromSeconds(5),
                     },

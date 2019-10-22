@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
@@ -9,14 +10,25 @@ namespace NetcoreMicroservice.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly IConfiguration Configuration;
+        public ValuesController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
-        {
-            Console.WriteLine("健康检查" + DateTime.Now);
+        {         
             return new string[] { "value1", "value2" };         
         }
 
+
+        [HttpGet("~/api/health")] //一定要有健康检查不然Consul注册失败
+        public ActionResult CheckHealth()
+        {
+            Console.WriteLine($"{Configuration["ip"]},{Configuration["port"]},健康检查中" + DateTime.Now);
+            return Ok();
+        }
 
 
         // GET api/values/5

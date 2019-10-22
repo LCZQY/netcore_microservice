@@ -16,6 +16,7 @@ namespace NetcoreMicroservice.Controllers
         private static List<Product> products = new List<Product>();
         static ProductController()
         {
+            
             products.Add(new Product { Id = 1, Name = "T430笔记本", Price = 8888, Description = "CPU i7标压版，1T硬盘" });
             products.Add(new Product { Id = 2, Name = "华为Mate10", Price = 3888, Description = "大猩猩屏幕，多点触摸" });
             products.Add(new Product { Id = 3, Name = "天梭手表", Price = 9888, Description = "瑞士经典款，可好了" });
@@ -24,6 +25,7 @@ namespace NetcoreMicroservice.Controllers
         [HttpGet]
         public IEnumerable<Product> Get()
         {
+            Console.WriteLine("调用api/product/get");
             //string name = this.User.Identity.Name;//读取的就是"Name"这个特殊的Claims的值
             //string userId = this.User.FindFirst("UserId").Value;
             //string realName = this.User.FindFirst("RealName").Value;
@@ -37,6 +39,7 @@ namespace NetcoreMicroservice.Controllers
         [HttpGet("{id}")]
         public Product Get(int id)
         {
+            Console.WriteLine($"调用api/product/get/{id}");
             var product = products.SingleOrDefault(p => p.Id == id);
             if (product == null)
             {
@@ -48,6 +51,7 @@ namespace NetcoreMicroservice.Controllers
         [HttpPost]
         public void Add(Product model)
         {
+            Console.WriteLine($"调用api/product/post");
             if (products.Any(p => p.Id == model.Id))
             {
                 Response.StatusCode = (int)HttpStatusCode.Conflict;//通过状态码而非响应体报错，是restful风格
