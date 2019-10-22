@@ -34,7 +34,7 @@ namespace NetcoreMicroservice
         {
             string ip = Configuration["ip"];
             string port = Configuration["port"];
-            string serviceName = "MicroService1";
+            string serviceName = "ProductService";
             string serviceId = serviceName + Guid.NewGuid();
             using (var consulClient = new ConsulClient(ConsulConfig))
             {
@@ -44,6 +44,7 @@ namespace NetcoreMicroservice
                     Port = Convert.ToInt32(port),
                     ID = serviceId,
                     Name = serviceName,
+                    Tags = new string[] {},//可以设置权重
                     Check = new AgentServiceCheck
                     {
                         DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),//服务停止多久后反注册
@@ -54,7 +55,6 @@ namespace NetcoreMicroservice
                 };
                 consulClient.Agent.ServiceRegister(asr).Wait();
             }
-
 
             //注销Consul 
             appLifeTime.ApplicationStopped.Register(() =>

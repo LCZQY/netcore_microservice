@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace NetcoreMicroservice.Controllers
 {
@@ -16,8 +14,10 @@ namespace NetcoreMicroservice.Controllers
         public ActionResult<IEnumerable<string>> Get()
         {
             Console.WriteLine("健康检查" + DateTime.Now);
-            return new string[] { "value1", "value2" };
+            return new string[] { "value1", "value2" };         
         }
+
+
 
         // GET api/values/5
         [HttpGet("{id}")]

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetcoreMicroservice", "NetcoreMicroservice\NetcoreMicroservice.csproj", "{1701199F-60EE-4723-8454-AAA2AD6C8264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetcoreMicroservice", "NetcoreMicroservice\NetcoreMicroservice.csproj", "{1701199F-60EE-4723-8454-AAA2AD6C8264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelectConsul", "SelectConsul\SelectConsul.csproj", "{439A3620-D23F-4B4E-B45C-4607E03F9223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SelectConsul", "SelectConsul\SelectConsul.csproj", "{439A3620-D23F-4B4E-B45C-4607E03F9223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestTemplateCore", "RestTemplateCore\RestTemplateCore.csproj", "{B851470C-C307-4117-8B81-80C245C3A45A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{439A3620-D23F-4B4E-B45C-4607E03F9223}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{439A3620-D23F-4B4E-B45C-4607E03F9223}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{439A3620-D23F-4B4E-B45C-4607E03F9223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B851470C-C307-4117-8B81-80C245C3A45A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B851470C-C307-4117-8B81-80C245C3A45A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B851470C-C307-4117-8B81-80C245C3A45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B851470C-C307-4117-8B81-80C245C3A45A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
