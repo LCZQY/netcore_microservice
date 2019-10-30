@@ -22,6 +22,11 @@ namespace NetcoreMicroservice.Controllers
             products.Add(new Product { Id = 3, Name = "天梭手表", Price = 9888, Description = "瑞士经典款，可好了" });
         }
 
+
+
+
+
+
         [HttpGet]
         public IEnumerable<Product> Get()
         {

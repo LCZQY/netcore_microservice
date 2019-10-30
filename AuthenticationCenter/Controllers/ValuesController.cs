@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
-/// 网关中心
+/// 权限中心
 /// </summary>
-namespace OcelotGateway.Controllers
+namespace AuthenticationCenter.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

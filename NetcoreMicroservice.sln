@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SelectConsul", "SelectConsu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestTemplateCore", "RestTemplateCore\RestTemplateCore.csproj", "{B851470C-C307-4117-8B81-80C245C3A45A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{DC33C233-E53D-4519-8D4B-05B99AE5EC64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{DC33C233-E53D-4519-8D4B-05B99AE5EC64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationCenter", "AuthenticationCenter\AuthenticationCenter.csproj", "{F7F6CD20-8CAA-403C-8336-E3D783DCB432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DC33C233-E53D-4519-8D4B-05B99AE5EC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC33C233-E53D-4519-8D4B-05B99AE5EC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC33C233-E53D-4519-8D4B-05B99AE5EC64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

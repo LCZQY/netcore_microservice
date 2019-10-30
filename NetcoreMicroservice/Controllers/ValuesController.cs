@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
+/// <summary>
+/// 业务代码
+/// </summary>
 namespace NetcoreMicroservice.Controllers
 {
 
@@ -15,6 +20,20 @@ namespace NetcoreMicroservice.Controllers
         {
             Configuration = configuration;
         }
+
+            
+        [HttpGet("identityWilling")]
+        [Authorize]
+        public async Task<IActionResult> IdentityWilling(int id)
+        {
+            var result = await Task.Run(() =>
+            {
+                var response = new { Comment = $"我是Willing，既然你是我公司员工，那我就帮你干活吧, host: {HttpContext.Request.Host.Value}, path: {HttpContext.Request.Path}" };
+                return response;
+            });
+            return Ok(result);
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<string> Get()

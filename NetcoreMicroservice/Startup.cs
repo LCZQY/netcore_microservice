@@ -26,12 +26,27 @@ namespace NetcoreMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //identityServer 的注册
+            IdentityServerConfig identityServerConfig = new IdentityServerConfig();
+            Configuration.Bind("IdentityServerConfig", identityServerConfig);
+            services.AddAuthentication(identityServerConfig.IdentityScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Authority = $"http://{identityServerConfig.IP}:{identityServerConfig.Port}";
+                    options.ApiName = identityServerConfig.ResourceName;
+                });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifeTime)
         {
+
+       
+
+
+            //Consul的注册
             string ip = Configuration["ip"] ?? "127.0.0.1";
             string port = Configuration["port"] ?? "5000";
             string serviceName = "ProductService";
@@ -87,4 +102,6 @@ namespace NetcoreMicroservice
             config.Datacenter = "dc1";
         }
     }
+
+   
 }

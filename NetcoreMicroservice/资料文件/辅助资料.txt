@@ -62,6 +62,9 @@ dotnet  OcelotGateway.dll --ip 127.0.0.1 --port 9000
         "Limit": 5 //一个时间周期内允许访问的最大次数。
       },
 
-步骤四：
+步骤四：认证中心 Identity4 的搭建
+
+1. http://localhost:5000/connect/token //获取Token 
+
 
 */
