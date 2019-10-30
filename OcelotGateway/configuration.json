@@ -1,0 +1,271 @@
+{
+  "ReRoutes": [ //路由配置
+    //配合Consul使用
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/zqy/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UseServiceDiscovery": true, //服务自动发现
+      "ServiceName": "ProductService", //服务名称
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+
+      "RateLimitOptions": { //限流配置
+        "ClientWhitelist": [], //白名单
+        "EnableRateLimiting": true, //是否启用限流
+        "Period": "1m", //先流控制的时间周期，输入单位支持【1s ,5m ,1h ,1d 】
+        "PeriodTimespan": 5, //多少秒之后客户端可以重试
+        "Limit": 5 //一个时间周期内允许访问的最大次数。
+      },
+      "QoSOptions": { //服务质量与熔断配置
+        "ExceptionsAllowedBeforeBreaking": 3, //允许异常次数，当Ocelot转发给该下游服务连续出现异常次数达到该数字时，Ocelot会进行自动熔断，一段时间内不再向该下游服务转发请求
+        "DurationOfBreak": 3000, //熔断时间，单位为ms（毫秒），持续多长时间不向该下游服务转发请求
+        "TimeoutValue": 5000 //服务质量配置项，超时时间，单位为ms（毫秒），当Ocelot向下游服务转发请求多长时间后，自动认为该请求超时
+      }
+    }
+      /**************** 传统配置方式
+    {
+      "DownstreamPathTemplate": "/api/{url}", // 下游服务配置
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        },
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/T6000/{url}", //上游服务配置
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //轮询（发现多个配置服务）
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{url}", // 下游服务配置
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        },
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/T6001/{url}", //上游服务配置
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //轮询（发现多个配置服务）  "LeastConnection"-最少连接数的服务器   "NoLoadBalbance" - 不做负载均衡
+
+      }
+    }
+   ****************/
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/aggrWilling",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/aggrWilling",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Key": "aggr_willing",
+      //  "Priority": 2
+      //},
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/aggrJack",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/aggrJack",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Key": "aggr_jack",
+      //  "Priority": 2
+      //},
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/aggrError/1",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/aggrError/1",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Key": "aggr_error",
+      //  "Priority": 2
+      //},
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/consulWilling",
+      //  "DownstreamScheme": "http",
+      //  "UpstreamPathTemplate": "/ocelot/consulWilling",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "LoadBalancerOptions": {
+      //    "Type": "RoundRobin"
+      //  },
+      //  "ServiceName": "ocelotService",
+      //  "Priority": 2
+      //},
+
+      //{
+      //  "DownstreamPathTemplate": "/connect/token",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8005
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/token",
+      //  "UpstreamHttpMethod": [ "Post" ],
+      //  "Priority": 2
+      //},
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/identityWilling",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Priority": 2
+      //},
+
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/8001/identityWilling",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Priority": 2,
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "APIService8001",
+      //    "AllowedScopes": []
+      //  }
+      //},
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8002
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/8002/identityWilling",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Priority": 2,
+      //  "AuthenticationOptions": {
+      //    "AuthenticationProviderKey": "APIService8002",
+      //    "AllowedScopes": []
+      //  }
+      //},
+
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/{postId}",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/ratelimit/{postId}",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Priority": 2,
+      //  "RateLimitOptions": {
+      //    "ClientWhiteList": [
+      //      "markadmin"
+      //    ],
+      //    "EnableRateLimiting": true,
+      //    "Period": "1m",
+      //    "PeriodTimespan": 30,
+      //    "Limit": 5
+      //  }
+      //},
+
+      //{
+      //  "DownstreamPathTemplate": "/api/ocelot/{postId}",
+      //  "DownstreamScheme": "http",
+      //  "DownstreamHostAndPorts": [
+      //    {
+      //      "Host": "localhost",
+      //      "Port": 8001
+      //    }
+      //  ],
+      //  "UpstreamPathTemplate": "/ocelot/qos/{postId}",
+      //  "UpstreamHttpMethod": [ "Get" ],
+      //  "Priority": 2, //数字越大等级越高
+      //  "QoSOptions": { //服务质量与熔断配置
+      //    "ExceptionsAllowedBeforeBreaking": 3,
+      //    "DurationOfBreak": 3000,
+      //    "TimeoutValue": 5000
+      //  }
+      //}
+  ],
+
+
+  "GlobalConfiguration": { //全局配置
+    "BaseUrl": "http://127.0.0.1:9000", //BaseUrl就是Ocelot服务对外暴露的Url。
+    "ServiceDiscoveryProvider": { //使用consul服务
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    },
+    "RateLimitOptions": { //限流配置
+      "DisableRateLimitHeaders": true, //当设为true时，请求头中就不会输出流量限制的相关信息
+      "QuotaExceededMessage": "This round of request is over, please wait a moment", //当请求数量超出流量限制时，输出的信息，默认值："API calls quota 
+      "HttpStatusCode": 999, //当请求数量超出流量限制时，输出的状态码，默认值："429"
+      "ClientIdHeader": "Test" //标识为白名单中的客户端的请求头key，默认值："ClientId"
+    },
+    //"Aggregates": [ //服务聚合配置
+    //  {
+    //    "ReRouteKeys": [
+    //      "aggr_willing",
+    //      "aggr_jack",
+    //      "aggr_error"
+    //    ],
+    //    "UpstreamPathTemplate": "/aggrLeader"
+    //  },
+    //  {
+    //    "ReRouteKeys": [
+    //      "aggr_willing",
+    //      "aggr_jack",
+    //      "aggr_error"
+    //    ],
+    //    "UpstreamPathTemplate": "/aggrLeaderAdvanced",
+    //    "Aggregator": "LeaderAdvancedAggregator"
+    //  }
+    //],
+    "FileCacheOptions": { //缓存配置
+      "TtlSeconds": 10 //10s 仅对get请求生效，同地址就同结果
+    }
+
+
+
+
+  }
+
+}

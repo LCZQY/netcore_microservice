@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace NetcoreMicroservice
+namespace OcelotGateway
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            //CreateWebHostBuilder(args).Build().Run();
             var config = new ConfigurationBuilder().AddCommandLine(args).Build();
             string ip = config["ip"] ?? "127.0.0.1";
             string port = config["port"] ?? "5001";
-            Console.WriteLine($"当前访问的>>> ip={ip},port={port}");
+            Console.WriteLine($"网关地址:ip={ip},port={port}");
 
             CreateWebHostBuilder(args).
                 UseUrls($"http://{ip}:{port}").
@@ -26,6 +27,8 @@ namespace NetcoreMicroservice
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+               .ConfigureAppConfiguration((hostingContext, builder) => {
+                   builder.AddJsonFile("configuration.json", optional: false, reloadOnChange: true);
+               }).UseStartup<Startup>();
     }
 }

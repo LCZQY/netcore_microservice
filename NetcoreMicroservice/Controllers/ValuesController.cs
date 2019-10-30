@@ -17,9 +17,9 @@ namespace NetcoreMicroservice.Controllers
         }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {         
-            return new string[] { "value1", "value2" };         
+        public ActionResult<string> Get()
+        {
+            return $"访问到的服务器地址是：{Configuration["ip"]},{Configuration["port"]}" + DateTime.Now;
         }
 
 

@@ -3,10 +3,65 @@
 https://www.cnblogs.com/wyt007/p/9197987.html --.NET Core微服务实施之Consul服务发现与治理2
 
 环境部署步骤：
-启动Consul > consul.exe agent -dev
-启动2个服务实例>
-dotnet  NetcoreMicroservice.dll --ip 127.0.0.1 --port 6001 
-dotnet  NetcoreMicroservice.dll --ip 127.0.0.1 --port 6002
+步骤一：启动Consul > consul.exe agent -dev
 
+步骤二：启动2个服务实例>
+dotnet  NetcoreMicroservice.dll --ip 127.0.0.1 --port 6000 
+dotnet  NetcoreMicroservice.dll --ip 127.0.0.1 --port 6001
+
+步骤三：创建网关> http://letyouknow.net/ocelot/ocelot-tutorial-5.html
+dotnet  OcelotGateway.dll --ip 127.0.0.1 --port 9000
+	1.做轮询  （传统使用）
+	{
+      "DownstreamPathTemplate": "/api/{url}", // 下游服务配置
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        },
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/T6000/{url}", //上游服务配置
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //轮询（发现多个配置服务）
+      }
+    },
+	2.搭配Consul 自己动发现服务，不需要手动配置
+	2.1. 下载依赖包 Ocelot.Provider.Consul	
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/zqy/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "ServiceName": "ProductService", //服务名称
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "UseServiceDiscovery": true //服务自动发现
+    }
+
+	3.熔断
+	"QoSOptions": { //服务质量与熔断配置
+        "ExceptionsAllowedBeforeBreaking": 3, //允许异常次数，当Ocelot转发给该下游服务连续出现异常次数达到该数字时，Ocelot会进行自动熔断，一段时间内不再向该下游服务转发请求
+        "DurationOfBreak": 3000, //熔断时间，单位为ms（毫秒），持续多长时间不向该下游服务转发请求
+        "TimeoutValue": 5000 //服务质量配置项，超时时间，单位为ms（毫秒），当Ocelot向下游服务转发请求多长时间后，自动认为该请求超时
+      }
+
+	4.限流(限制对接口的请求)
+	    "RateLimitOptions": { //限流配置
+        "ClientWhitelist": [], //白名单
+        "EnableRateLimiting": true, //是否启用限流
+        "Period": "1m", //先流控制的时间周期，输入单位支持【1s ,5m ,1h ,1d 】
+        "PeriodTimespan": 5, //多少秒之后客户端可以重试
+        "Limit": 5 //一个时间周期内允许访问的最大次数。
+      },
+
+步骤四：
 
 */
