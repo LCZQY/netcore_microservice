@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
 using Ocelot.Provider.Polly;
+using OcelotGateway.Aggregator;
+
 namespace OcelotGateway
 {
     public class Startup
@@ -28,10 +23,32 @@ namespace OcelotGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<LeaderAdvancedDependency>();
             services.AddOcelot()
-                .AddConsul() //AddConsul() 配置 ocelot使用
-                .AddPolly();//AddPolly() 配置熔断使用
+                .AddPolly()//AddPolly() 配置熔断使用
+                .AddConsul()
+                .AddSingletonDefinedAggregator<LeaderAdvancedAggregator>();
+
+
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //注册Identity4
+            var identityBuilder = services.AddAuthentication();
+            IdentityServerConfig identityServerConfig = new IdentityServerConfig();
+            Configuration.Bind("IdentityServerConfig", identityServerConfig);
+            if (identityServerConfig != null && identityServerConfig.Resources != null)
+            {
+                foreach (var resource in identityServerConfig.Resources)
+                {
+                    identityBuilder.AddIdentityServerAuthentication(resource.Key, options =>
+                    {
+                        options.Authority = $"http://{identityServerConfig.IP}:{identityServerConfig.Port}";
+                        options.RequireHttpsMetadata = false;
+                        options.ApiName = resource.Name;
+                        options.SupportedTokens = SupportedTokens.Both;
+                    });
+                }
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,9 +63,12 @@ namespace OcelotGateway
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
+            app.UseAuthentication();
+
+            app.UseMvc();
             app.UseOcelot().Wait();
-            //app.UseHttpsRedirection();
-            //app.UseMvc();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace NetcoreMicroservice.Controllers
 
             
         [HttpGet("identityWilling")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> IdentityWilling(int id)
         {
             var result = await Task.Run(() =>

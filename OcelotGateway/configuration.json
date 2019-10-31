@@ -12,7 +12,10 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-
+      "AuthenticationOptions": {//使用权限认证
+        "AuthenticationProviderKey": "APIService6001", //权限实例，在认证中心配置的
+        "AllowedScopes": []
+      },
       "RateLimitOptions": { //限流配置
         "ClientWhitelist": [], //白名单
         "EnableRateLimiting": true, //是否启用限流
@@ -25,8 +28,22 @@
         "DurationOfBreak": 3000, //熔断时间，单位为ms（毫秒），持续多长时间不向该下游服务转发请求
         "TimeoutValue": 5000 //服务质量配置项，超时时间，单位为ms（毫秒），当Ocelot向下游服务转发请求多长时间后，自动认为该请求超时
       }
-    }
-      /**************** 传统配置方式
+    },
+    //注册访问认证中心
+    {
+      "DownstreamPathTemplate": "/connect/token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/token",
+      "UpstreamHttpMethod": [ "Post" ],
+      "Priority": 2
+    }   
+    /**************** 传统配置方式
     {
       "DownstreamPathTemplate": "/api/{url}", // 下游服务配置
       "DownstreamScheme": "http",
@@ -67,163 +84,163 @@
       }
     }
    ****************/
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/aggrWilling",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/aggrWilling",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Key": "aggr_willing",
-      //  "Priority": 2
-      //},
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/aggrJack",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/aggrJack",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Key": "aggr_jack",
-      //  "Priority": 2
-      //},
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/aggrError/1",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/aggrError/1",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Key": "aggr_error",
-      //  "Priority": 2
-      //},
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/consulWilling",
-      //  "DownstreamScheme": "http",
-      //  "UpstreamPathTemplate": "/ocelot/consulWilling",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "LoadBalancerOptions": {
-      //    "Type": "RoundRobin"
-      //  },
-      //  "ServiceName": "ocelotService",
-      //  "Priority": 2
-      //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/aggrWilling",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/aggrWilling",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Key": "aggr_willing",
+    //  "Priority": 2
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/aggrJack",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/aggrJack",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Key": "aggr_jack",
+    //  "Priority": 2
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/aggrError/1",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/aggrError/1",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Key": "aggr_error",
+    //  "Priority": 2
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/consulWilling",
+    //  "DownstreamScheme": "http",
+    //  "UpstreamPathTemplate": "/ocelot/consulWilling",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "LoadBalancerOptions": {
+    //    "Type": "RoundRobin"
+    //  },
+    //  "ServiceName": "ocelotService",
+    //  "Priority": 2
+    //},
 
-      //{
-      //  "DownstreamPathTemplate": "/connect/token",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8005
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/token",
-      //  "UpstreamHttpMethod": [ "Post" ],
-      //  "Priority": 2
-      //},
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/identityWilling",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Priority": 2
-      //},
+    //{
+    //  "DownstreamPathTemplate": "/connect/token",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8005
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/token",
+    //  "UpstreamHttpMethod": [ "Post" ],
+    //  "Priority": 2
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/identityWilling",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Priority": 2
+    //},
 
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/8001/identityWilling",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Priority": 2,
-      //  "AuthenticationOptions": {
-      //    "AuthenticationProviderKey": "APIService8001",
-      //    "AllowedScopes": []
-      //  }
-      //},
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8002
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/8002/identityWilling",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Priority": 2,
-      //  "AuthenticationOptions": {
-      //    "AuthenticationProviderKey": "APIService8002",
-      //    "AllowedScopes": []
-      //  }
-      //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/8001/identityWilling",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Priority": 2,
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "APIService8001",
+    //    "AllowedScopes": []
+    //  }
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/identityWilling",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8002
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/8002/identityWilling",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Priority": 2,
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "APIService8002",
+    //    "AllowedScopes": []
+    //  }
+    //},
 
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/{postId}",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/ratelimit/{postId}",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Priority": 2,
-      //  "RateLimitOptions": {
-      //    "ClientWhiteList": [
-      //      "markadmin"
-      //    ],
-      //    "EnableRateLimiting": true,
-      //    "Period": "1m",
-      //    "PeriodTimespan": 30,
-      //    "Limit": 5
-      //  }
-      //},
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/{postId}",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/ratelimit/{postId}",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Priority": 2,
+    //  "RateLimitOptions": {
+    //    "ClientWhiteList": [
+    //      "markadmin"
+    //    ],
+    //    "EnableRateLimiting": true,
+    //    "Period": "1m",
+    //    "PeriodTimespan": 30,
+    //    "Limit": 5
+    //  }
+    //},
 
-      //{
-      //  "DownstreamPathTemplate": "/api/ocelot/{postId}",
-      //  "DownstreamScheme": "http",
-      //  "DownstreamHostAndPorts": [
-      //    {
-      //      "Host": "localhost",
-      //      "Port": 8001
-      //    }
-      //  ],
-      //  "UpstreamPathTemplate": "/ocelot/qos/{postId}",
-      //  "UpstreamHttpMethod": [ "Get" ],
-      //  "Priority": 2, //数字越大等级越高
-      //  "QoSOptions": { //服务质量与熔断配置
-      //    "ExceptionsAllowedBeforeBreaking": 3,
-      //    "DurationOfBreak": 3000,
-      //    "TimeoutValue": 5000
-      //  }
-      //}
+    //{
+    //  "DownstreamPathTemplate": "/api/ocelot/{postId}",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 8001
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/ocelot/qos/{postId}",
+    //  "UpstreamHttpMethod": [ "Get" ],
+    //  "Priority": 2, //数字越大等级越高
+    //  "QoSOptions": { //服务质量与熔断配置
+    //    "ExceptionsAllowedBeforeBreaking": 3,
+    //    "DurationOfBreak": 3000,
+    //    "TimeoutValue": 5000
+    //  }
+    //}
   ],
 
 

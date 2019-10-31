@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Consul;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,25 +28,25 @@ namespace NetcoreMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             //identityServer 的注册
-            IdentityServerConfig identityServerConfig = new IdentityServerConfig();
-            Configuration.Bind("IdentityServerConfig", identityServerConfig);
-            services.AddAuthentication(identityServerConfig.IdentityScheme)
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.Authority = $"http://{identityServerConfig.IP}:{identityServerConfig.Port}";
-                    options.ApiName = identityServerConfig.ResourceName;
-                });
+            //IdentityServerConfig identityServerConfig = new IdentityServerConfig();
+            //Configuration.Bind("IdentityServerConfig", identityServerConfig);
+            //services.AddAuthentication(identityServerConfig.IdentityScheme)
+            //    .AddIdentityServerAuthentication(options =>
+            //    {
+            //        options.RequireHttpsMetadata = false;
+            //        options.Authority = $"http://{identityServerConfig.IP}:{identityServerConfig.Port}";
+            //        options.ApiName = identityServerConfig.ResourceName;
+            //    });
+         
+        
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime appLifeTime)
         {
-
        
-
-
             //Consul的注册
             string ip = Configuration["ip"] ?? "127.0.0.1";
             string port = Configuration["port"] ?? "5000";
@@ -90,6 +91,8 @@ namespace NetcoreMicroservice
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+           
+            //app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseMvc();
