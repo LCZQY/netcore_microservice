@@ -1,0 +1,123 @@
+﻿docker +  elasticesarch  
+参考网址：https://www.jianshu.com/p/a0bd70301eec
+
+》》注意一定要版本一致，不然运行会失败
+
+安装步骤：
+》》》拉取1.elasticsearch
+docker pull docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+运行
+docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+配置elasticsearch
+	#进入容器
+		docker exec -it elasticsearch /bin/bash
+	# 进入配置文件夹
+		cd config
+	# 修改配置文件
+		vi elasticsearch.yml
+	# 加入跨域配置
+		http.cors.enabled: true
+		http.cors.allow-origin: "*"
+
+查看容器elasticsearch ip地址
+	docker inspect elasticsearch
+访问
+http://localhost:9200/
+
+
+
+》》》拉取2. ElasticSearch-Head（是需要有一个管理界面进行查看ElasticSearch相关信息）
+docker pull mobz/elasticsearch-head:5
+
+
+运行
+docker run -d --name es_admin -p 9100:9100 mobz/elasticsearch-head:5
+
+访问
+http://localhost:9100/
+
+
+》》拉取3.logstash
+安装
+docker pull docker.elastic.co/logstash/logstash:6.4.2
+运行
+docker run --name es_logstash docker.elastic.co/logstash/logstash:6.4.2
+进入容器
+docker exec -it es_logstash /bin/bash
+修改elasticsearch 地址
+cd config
+vi logstash.yml
+修改
+xpack.monitoring.elasticsearch.url: http://172.17.0.2:9200
+
+#添加日志记录
+cd pipeline
+vi logstash.conf
+
+#添加的部分
+input {
+        file {
+            codec=> json
+                path => "/usr/local/*.json"
+        }
+}
+filter {
+  #定义数据的格式
+  grok {
+    match => { "message" => "%{DATA:timestamp}\|%{IP:serverIp}\|%{IP:clientIp}\|%{DATA:logSource}\|%{DATA:userId}\|%{DATA:reqUrl}\|%{DATA:reqUri}\|%{DATA:refer}\|%{DATA:device}\|%{DATA:textDuring}\|%{DATA:duringTime:int}\|\|"}
+  }
+}
+output {
+   elasticsearch{
+     hosts=> "http://172.17.0.2:9200"
+   }
+}
+
+
+》》》拉去4. kibana
+docker pull docker.elastic.co/kibana/kibana:6.4.2
+
+运行
+docker run --rm -p 5601:5601 --link elasticsearch:elasticsearch -e ELASTICSEARCH_URL=http://172.17.0.2:9200 --name es_kibana docker.elastic.co/kibana/kibana:6.4.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+其他 Docker 命令
+
+》》》 容器操作
+docker start 容器ID或容器名 
+docker stop 容器ID或容器名 
+docker kill 容器ID或容器名 :直接关闭容器
+docker restart 59ec 重启容器 
+
+
+》》》 docker 网络命令
+
+docker network ls //查看所有网络
+docker network create newsearch //创建一个网络
+docker network connect newsearch elasticsearch  //把一个docker容器指定到一个网络种
+docker network disconnet newsearch elasticsearch //断开和移除网络
+docker network inspect newsearch //查看该网络的详信息
+
+》》》 查看容器得网络
+docker inspect 容器名
+
+》》》 容器命令
+docker rmi  镜像id/镜像名称 //删除镜像文件
+
+docker ps -ap //列出所有的容器id
+docker stop $(docker ps -aq) //停止所有的容器
+docker rmi $(docker images -q) //删除所有的镜像

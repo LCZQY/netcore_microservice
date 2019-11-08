@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestTemplateCore", "RestTem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{DC33C233-E53D-4519-8D4B-05B99AE5EC64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationCenter", "AuthenticationCenter\AuthenticationCenter.csproj", "{F7F6CD20-8CAA-403C-8336-E3D783DCB432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationCenter", "AuthenticationCenter\AuthenticationCenter.csproj", "{F7F6CD20-8CAA-403C-8336-E3D783DCB432}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ELK", "ELK", "{0B89AE63-BF1A-469C-A19E-2E28C78FBB64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElasticsearchNlogKibana", "ElasticsearchNlogKibana\ElasticsearchNlogKibana.csproj", "{0657BEA3-5474-4572-AEE6-58B26B17B96B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEs", "TestEs\TestEs.csproj", "{900B4AF6-2C40-41F3-B483-647F2A3359B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +45,21 @@ Global
 		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7F6CD20-8CAA-403C-8336-E3D783DCB432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0657BEA3-5474-4572-AEE6-58B26B17B96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0657BEA3-5474-4572-AEE6-58B26B17B96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0657BEA3-5474-4572-AEE6-58B26B17B96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0657BEA3-5474-4572-AEE6-58B26B17B96B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{900B4AF6-2C40-41F3-B483-647F2A3359B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{900B4AF6-2C40-41F3-B483-647F2A3359B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{900B4AF6-2C40-41F3-B483-647F2A3359B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{900B4AF6-2C40-41F3-B483-647F2A3359B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0657BEA3-5474-4572-AEE6-58B26B17B96B} = {0B89AE63-BF1A-469C-A19E-2E28C78FBB64}
+		{900B4AF6-2C40-41F3-B483-647F2A3359B1} = {0B89AE63-BF1A-469C-A19E-2E28C78FBB64}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8AB9EA8-934B-44D6-9F7B-96A5FFAF0081}
