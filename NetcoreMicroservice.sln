@@ -14,10 +14,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationCenter", "AuthenticationCenter\AuthenticationCenter.csproj", "{F7F6CD20-8CAA-403C-8336-E3D783DCB432}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ELK", "ELK", "{0B89AE63-BF1A-469C-A19E-2E28C78FBB64}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Administrator\Desktop\ELK分布式日志系统（1）.docx = C:\Users\Administrator\Desktop\ELK分布式日志系统（1）.docx
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElasticsearchNlogKibana", "ElasticsearchNlogKibana\ElasticsearchNlogKibana.csproj", "{0657BEA3-5474-4572-AEE6-58B26B17B96B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEs", "TestEs\TestEs.csproj", "{900B4AF6-2C40-41F3-B483-647F2A3359B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEs", "TestEs\TestEs.csproj", "{900B4AF6-2C40-41F3-B483-647F2A3359B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

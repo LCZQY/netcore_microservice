@@ -54,7 +54,6 @@ xpack.monitoring.elasticsearch.url: http://172.17.0.2:9200
 cd pipeline
 vi logstash.conf
 
-#添加的部分
 input {
         file {
             codec=> json
