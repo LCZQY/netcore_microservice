@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ElasticsearchNlogKibana.Controllers
 {
@@ -10,10 +8,28 @@ namespace ElasticsearchNlogKibana.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
+        //
+        private readonly ILogger _logger;
+        public ValuesController(ILoggerFactory  loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<ValuesController>();
+        }
+
+        //GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            var student = new Student() { 
+                Age = 20,
+                Name = "郑强勇",
+                Sex = true,
+                Weight = 10
+            };
+            _logger.LogInformation("用户访问本接口{@Student}", student,20);
+            var position = new { Latitude = 25, Longitude = 134 };
+            var elapsedMs = 34;
+
+            _logger.LogInformation("Processed {@Position} in {Elapsed} ms.", position, elapsedMs);
             return new string[] { "value1", "value2" };
         }
 
@@ -42,4 +58,6 @@ namespace ElasticsearchNlogKibana.Controllers
         {
         }
     }
+
+    
 }
